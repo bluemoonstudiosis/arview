@@ -44,6 +44,40 @@
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 <script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
 
+<style>
+  button{
+    display: block;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    border: none;
+    background-color: blue;
+    box-sizing: border-box;
+  }
+
+  button[slot="hotspot-hand"]{
+    --min-hotspot-opacity: 0;
+    background-color: red;
+  }
+
+  button[slot="hotspot-foot"]:not([data-visible]) {
+    background-color: transparent;
+    border: 3px solid blue;
+  }
+
+  #annotation{
+    background-color: #888888;
+    position: absolute;
+    transform: translate(10px, 10px);
+    border-radius: 10px;
+    padding: 10px;
+  }
+  /* This keeps child nodes hidden while the element loads */
+  :not(:defined) > * {
+    display: none;
+  }
+</style>
+
 
 </head>
 <body>
@@ -51,7 +85,13 @@
     <div class="content">
      
 
-      <model-viewer style="width:100%;height: 100vh;" src="https://ar-base.s3.ap-south-1.amazonaws.com/ar2.glb" ios-src="https://ar-base.s3.ap-south-1.amazonaws.com/ar_dome.usdz" ar alt="A 3D model of an astronaut" auto-rotate camera-controls></model-viewer>
+      <model-viewer style="width:100%;height: 100vh;" src="https://ar-base.s3.ap-south-1.amazonaws.com/ar2.glb" ios-src="https://ar-base.s3.ap-south-1.amazonaws.com/ar_dome.usdz" ar alt="A 3D model of an astronaut" auto-rotate camera-controls>
+        
+        <button slot="hotspot-hand" data-position="-0.54 0.93 0.1" data-normal="-0.73 0.05 0.69">
+          <div id="annotation">This hotspot disappears completely</div>
+        </button>
+
+      </model-viewer>
 
 
     
