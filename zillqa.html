@@ -1,0 +1,119 @@
+<!--
+/*
+ * Copyright 2018 Google Inc. All Rights Reserved.
+ * Licensed under the Apache License, Version 2.0 (the 'License');
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an 'AS IS' BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Experiences - Chand.network</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no,
+  minimum-scale=1.0, maximum-scale=1.0">
+ <!--  <link type="text/css" href="https://googlewebcomponents.github.io/model-viewer/examples/styles/examples.css" rel="stylesheet" /> -->
+  <link rel="shortcut icon" type="image/png" href="assets/favicon.png"/>
+
+  <!-- The following libraries and polyfills are recommended to maximize browser support -->
+
+  <!-- 🚨 REQUIRED: Web Components polyfill to support Edge and Firefox < 63 -->
+ <!--  <script src="https://googlewebcomponents.github.io/model-viewer/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script> -->
+
+  <!-- 💁 OPTIONAL: Intersection Observer polyfill for better performance in Safari and IE11 -->
+ <!--  <script src="https://googlewebcomponents.github.io/model-viewer/node_modules/intersection-observer/intersection-observer.js"></script>
+ -->
+  <!-- 💁 OPTIONAL: Resize Observer polyfill improves resize behavior in non-Chrome browsers -->
+ <!--  <script src="https://googlewebcomponents.github.io/model-viewer/node_modules/resize-observer-polyfill/dist/ResizeObserver.js"></script>
+ -->
+  <!-- 💁 OPTIONAL: Fullscreen polyfill is needed to fully support AR features -->
+  <!-- <script src="https://googlewebcomponents.github.io/model-viewer/node_modules/fullscreen-polyfill/dist/fullscreen.polyfill.js"></script>
+ -->
+  <!-- 💁 OPTIONAL: Include prismatic.js for Magic Leap support -->
+  <!--<script src="../node_modules/@magicleap/prismatic/prismatic.min.js"></script>-->
+
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+<script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
+
+<style>
+  button{
+    display: block;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    border: none;
+    background-color: blue;
+    box-sizing: border-box;
+  }
+
+  button[slot="hotspot-hand"]{
+    --min-hotspot-opacity: 0;
+    background-color: red;
+  }
+
+  button[slot="hotspot-foot"]:not([data-visible]) {
+    background-color: transparent;
+    border: 3px solid blue;
+  }
+
+  #annotation{
+    background-color: #888888;
+    position: absolute;
+    transform: translate(10px, 10px);
+    border-radius: 10px;
+    padding: 10px;
+  }
+  /* This keeps child nodes hidden while the element loads */
+  :not(:defined) > * {
+    display: none;
+  }
+</style>
+
+
+</head>
+<body>
+    <!-- <div id="demo-container-1" class="demo"></div> -->
+    <div class="content">
+     
+
+      <model-viewer style="width:100%;height: 100vh;" src="https://ar-base.s3.ap-south-1.amazonaws.com/ziliqa.glb" ios-src="https://ar-base.s3.ap-south-1.amazonaws.com/ar_dome.usdz" ar alt="A 3D model of an astronaut" auto-rotate camera-controls>
+        
+        <button slot="hotspot-hand" data-position="0 0 0" data-normal="-0.73 0.05 0.69">
+          <div id="annotation"><a href="https://google.com">This hotspot disappears completely</a></div>
+        </button>
+
+      </model-viewer>
+
+
+    
+   
+    </div>
+
+<!-- <script type="text/javascript">
+  
+  document.getElementById("loaded_model");
+
+</script>
+ -->
+
+  <!-- Documentation-specific dependencies: -->
+<!--   <script type="module"
+      src="https://googlewebcomponents.github.io/model-viewer/examples/built/dependencies.js">
+  </script>
+ -->  <!-- <script nomodule
+      src="https://googlewebcomponents.github.io/model-viewer/examples/built/dependencies-legacy.js">
+  </script> -->
+
+  <!-- Loads <model-viewer> only on modern browsers: -->
+
+</body>
+</html>
