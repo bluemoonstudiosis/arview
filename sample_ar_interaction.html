@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>&lt;model-viewer&gt; Augmented Reality</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no,
+  minimum-scale=1.0, maximum-scale=1.0">
+ <!--  <link type="text/css" href="https://googlewebcomponents.github.io/model-viewer/examples/styles/examples.css" rel="stylesheet" /> -->
+  <link rel="shortcut icon" type="image/png" href="assets/favicon.png"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
+
+  <!-- The following libraries and polyfills are recommended to maximize browser support -->
+
+  <!-- 🚨 REQUIRED: Web Components polyfill to support Edge and Firefox < 63 -->
+ <!--  <script src="https://googlewebcomponents.github.io/model-viewer/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script> -->
+
+  <!-- 💁 OPTIONAL: Intersection Observer polyfill for better performance in Safari and IE11 -->
+ <!--  <script src="https://googlewebcomponents.github.io/model-viewer/node_modules/intersection-observer/intersection-observer.js"></script>
+ -->
+  <!-- 💁 OPTIONAL: Resize Observer polyfill improves resize behavior in non-Chrome browsers -->
+ <!--  <script src="https://googlewebcomponents.github.io/model-viewer/node_modules/resize-observer-polyfill/dist/ResizeObserver.js"></script>
+ -->
+  <!-- 💁 OPTIONAL: Fullscreen polyfill is needed to fully support AR features -->
+  <!-- <script src="https://googlewebcomponents.github.io/model-viewer/node_modules/fullscreen-polyfill/dist/fullscreen.polyfill.js"></script>
+ -->
+  <!-- 💁 OPTIONAL: Include prismatic.js for Magic Leap support -->
+  <!--<script src="../node_modules/@magicleap/prismatic/prismatic.min.js"></script>-->
+
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+<script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
+
+<style>
+  
+  html, body {
+    font-family: 'Poppins', sans-serif;
+  }
+
+  #controls {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    max-width: unset;
+    transform: unset;
+    display: none;
+  }
+
+  .dot{
+   display: block;
+    /* width: 48px; */
+    height: 28px;
+    /* border-radius: 50%; */
+    /* box-shadow: 0 2px 4px rgb(0 0 0 / 25%); */
+    background: #d8ff00;
+    --min-hotspot-opacity: 0;
+    font-size: 10px;
+    border: 2px solid #000;
+  }
+
+  .dim{
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+    color: rgba(0, 0, 0, 0.8);
+    display: block;
+    font-family: Futura, Helvetica Neue, sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    max-width: 128px;
+    overflow-wrap: break-word;
+    padding: 0.5em 1em;
+    position: absolute;
+    width: max-content;
+    height: max-content;
+    transform: translate3d(-50%, -50%, 0);
+    --min-hotspot-opacity: 0;
+  }
+
+  .show{
+    --min-hotspot-opacity: 1;
+  }
+
+  .hide{
+    display: none;
+  }
+  /* This keeps child nodes hidden while the element loads */
+  :not(:defined) > * {
+    display: none;
+  }
+  #product_select_div{
+    width: 300px;
+    overflow-x: scroll;
+  }
+  #product_select_div>ul{
+    list-style: none;
+  }
+
+  #item_show{
+    position: absolute;
+    display: none;
+    bottom: 16px;
+    left: 16px;
+    max-width: 100px;
+    transform: unset;
+     z-index: 10000000;
+  }
+  .icon-div{
+    background: #d3ec38;
+    text-align: center;
+    border-radius: 50%;
+    box-shadow: -1px 3px 4px 0px #6f6f6f;
+    margin-bottom: 5px;
+  }
+  .icon-div-active{
+    background: #c7c7c7;
+    text-align: center;
+    border-radius: 50%;
+    box-shadow: -1px 3px 4px 0px #6f6f6f;
+    margin-bottom: 5px;
+  }
+  .icon-div>img{
+    width: 28px;
+    height: 28px;
+    padding: 10px;
+    margin: 5px;
+  }
+  #cart-count{
+    position: absolute;
+    left: 40px;
+    bottom: 40px;
+    font-weight: bold;
+  }
+  #cart_view_div, #chat_view_div{
+    position: absolute;
+    height: 98%;
+    width: 100%;
+    left: 0;
+    right: 0;
+    z-index: 10000000;
+    background: #fff;
+    display: none;
+  }
+  #close_cart_view_div{
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    right: 0;
+    margin: 20px;
+   ght: bold;
+  }
+
+  .table_tr_td{
+    padding: 10px;
+    border-bottom: 1px solid #000;
+  }
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+<model-viewer style="width:100%;height: 90vh;" id="dimension-demo" ar ar-modes="webxr"  camera-orbit="-30deg auto auto" max-camera-orbit="auto 100deg auto" shadow-intensity="1" camera-controls src="https://ar-base.s3.ap-south-1.amazonaws.com/nd6.glb" alt="A 3D model of an armchair.">
+  <button slot="hotspot-dot+X-Y+Z" class="dot hide" data-position="-3.127745661222722 0.43282917762134776 2.497520500936586" data-normal="0.9960649196306356 -0.08587952946980476 0.02189480073580414" item-code=0>Add to Bag</button>
+  <!-- <button slot="hotspot-dim+X-Y" class="dim hide" data-position="1 -1 0" data-normal="1 0 0"></button> -->
+
+  <button slot="hotspot-dot+X-Y-Z" class="dot hide" data-position="-3.655942699499647 0.4543728937587552 1.5142971089452053" data-normal="0.7836160641734223 0.5465036023755038 -0.2954313398404986" item-code=1>Add to Bag</button>
+ <!--  <button slot="hotspot-dim+X-Z" class="dim hide" data-position="1 0 -1" data-normal="1 0 0"></button> -->
+
+  <button slot="hotspot-dot+X+Y-Z" class="dot show hide" data-position="0.20365437259679628 0.5004141395807977 -3.5244626457684642" data-normal="-0.2546435536885821 -0.08153033400432683 0.9635919599093765" item-code=2>Add to Bag</button>
+  <!-- <button slot="hotspot-dim+Y-Z" class="dim show hide" data-position="0 -1 -1" data-normal="0 1 0"></button> -->
+
+  <button slot="hotspot-dot-X+Y-Z" class="dot show hide" data-position="0.4987159996825159 0.4523233850769479 -3.3579980877054636" data-normal="0.7880796684148108 0.035233727064772215 0.6145640899925143" item-code=3>
+    Add to Bag
+  </button>
+  <!-- <button slot="hotspot-dim-X-Z" class="dim hide" data-position="-1 0 -1" data-normal="-1 0 0"></button> -->
+
+  <button slot="hotspot-dot-X-Y-Z" class="dot1 hide" data-position="-2.273037868856373 0.1319654715113554 -3.7270644352906883" data-normal="0.13052410547521565 0 0.99144513609674597">
+
+    <video src="{{url_for('static', filename='ninja_01.mp4')}}" controls autoplay style="width: 150px;height: 100px;">
+        Your browser does not support the video tag.
+    </video>
+  </button> 
+ <!--  <button slot="hotspot-dim-X-Y" class="dim hide" data-position="-1 -1 0" data-normal="-1 0 0"></button> -->
+
+ <!--  <button slot="hotspot-dot-X-Y+Z" class="dot hide" data-position="-1 -1 1" data-normal="-1 0 0">+ 5</button> -->
+
+
+  <div id="item_show">
+    <div class="icon-div" id="view_chat">
+        <img src="{{url_for('static', filename='chat.png')}}">
+      </div>
+      <div class="icon-div" id="product_view">
+        <img src="{{url_for('static', filename='search.png')}}">
+      </div>
+      <div class="icon-div" id="view_cart">
+        <img src="{{url_for('static', filename='cart.png')}}">
+        <span id="cart-count">0</span>
+      </div>
+  </div>
+  <div id="cart_view_div">
+    <span id="close_cart_view_div" onclick="$(this).parent().toggle()"><img width="25px" src="{{url_for('static', filename='cross_close.png')}}"></span>
+    <div id="cart_content">
+      <div style="margin-top:20px;">No items Add to cart yet</div>
+    </div>
+  </div>
+
+  <div id="chat_view_div">
+    <span id="close_cart_view_div" onclick="$(this).parent().toggle()"><img width="25px" src="{{url_for('static', filename='cross_close.png')}}"></span>
+    <div id="cart_content">
+      <div style="margin-top:20px;">No Stream connected</div>
+    </div>
+  </div>
+
+  <div id="controls" class="dim">
+    <div id="product_select_div">
+      <!-- <ul>
+        <li><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/2048px-User_icon_2.svg.png" style="width:100px; height:100px;"></li>
+        <li><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/2048px-User_icon_2.svg.png" style="width:100px; height:100px;"></li>
+        <li><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/2048px-User_icon_2.svg.png" style="width:100px; height:100px;"></li>
+        <li><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/2048px-User_icon_2.svg.png" style="width:100px; height:100px;"></li>
+        <li><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/2048px-User_icon_2.svg.png" style="width:100px; height:100px;"></li>
+        <li><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/2048px-User_icon_2.svg.png" style="width:100px; height:100px;"></li>
+      </ul> -->
+    </div>
+    <span id="update_number"> 0 </span>
+    <button id="click_to_add_btn">add</button>
+    
+    <label for="src">Product:</label>
+    <select id="src">
+      <option value="https://ar-base.s3.ap-south-1.amazonaws.com/nd6.glb">Chair</option>
+      <option value="{{url_for('static', filename='Mixer.glb')}}">Mixer</option>
+      <option value="{{url_for('static', filename='GeoPlanter.glb')}}">Cactus</option>
+    </select><br>
+
+    <label for="show-dimensions">Show Dimensions:</label>
+    <input id="show-dimensions" type="checkbox" checked="true">
+  </div>
+</model-viewer>
+
+<script type="module">
+
+  var items = [{'item_name':'LAGOM COLLECTION- WHITE T-SHIRT','price': '29.99'}, {'item_name':'LAGOM COLLECTION- BLACK T-SHIRT','price': '29.99'}, {'item_name':'LAGOM COLLECTION- GREY HOODIE','price': '74.99'}, {'item_name':'LAGOM COLLECTION- BLACK HOODIE','price': '64.99'}];
+
+  var item = []
+  var item_quantity = []
+
+  function isInArray(value, array) {
+  return array.indexOf(value) > -1;
+}
+
+  const modelViewer = document.querySelector('#dimension-demo');
+
+  $(document).ready(function(){
+    $("#product_view").on('click', function(){
+
+         console.log($(this).hasClass('icon-div-active'));
+
+         if ($(this).hasClass('icon-div-active')){
+            $(this).removeClass('icon-div-active');
+            modelViewer.querySelectorAll('button').forEach((hotspot) => {
+            hotspot.classList.add('hide');
+        
+            });
+
+         }else{
+          $(this).addClass('icon-div-active');
+
+          modelViewer.querySelectorAll('button').forEach((hotspot) => {
+            hotspot.classList.remove('hide');
+        
+            });
+      
+         }
+
+
+         $(".dot").on('click', function(){           
+            console.log($(this).attr('item-code'));
+            if(isInArray(parseInt($(this).attr('item-code')), item)){
+                item_quantity[parseInt($(this).attr('item-code'))] = item_quantity[parseInt($(this).attr('item-code'))] + 1;
+            }else{
+              item.push(parseInt($(this).attr('item-code')));
+              item_quantity[parseInt($(this).attr('item-code'))] = 1;
+              $("#cart-count").text(item.length);
+            }
+         });
+        
+    });
+
+    $("#view_chat").on('click', function(){
+      //alert("clicked on view chat")
+      $("#chat_view_div").toggle();
+    });
+
+    $("#view_cart").on('click', function(){
+     // alert("clicked on view cart")
+      $("#cart_view_div").toggle();
+      console.log(item)
+      console.log(item_quantity)
+      var grand_total = 0;
+      var html_str = "<table style='margin-top:40px;width:100%;'><thead><tr><th>Item Name</th><th>Quantity</th><th>Price</th><th>Total</th></tr></thead><tbody style='text-align: center;'>"
+      $.each(item, function(e,v){
+        console.log("check this --------------")
+        console.log(v);
+
+        var selected_item = items[v];
+
+        html_str += "<tr><td class='table_tr_td'>"+selected_item.item_name+"</td><td class='table_tr_td'>"+item_quantity[v]+"</td><td class='table_tr_td'>"+selected_item.price+"</td><td class='table_tr_td'>"+parseFloat(selected_item.price) * parseInt(item_quantity[v])+"</td></tr>";
+
+        grand_total = parseFloat(grand_total + parseFloat(selected_item.price) * parseInt(item_quantity[v])).toFixed(2);
+
+      });
+
+      html_str +="<tr><td colspan='3' class='table_tr_td'>Grand Total </td><td class='table_tr_td'>"+grand_total+"</td></tr></tbody></table><div style='position: absolute; bottom: 10px; left: 0; right: 0; text-align: center; background: #000000; padding: 10px;'><a href='https://nip.gl/' style='    color: #d8ff00; text-decoration: none; font-weight: bold;}'>Checkout</a></div>"
+      $("#cart_content").html(html_str);
+
+    });
+  });
+
+
+  
+
+
+  modelViewer.querySelector('#src').addEventListener('input', (event) => {
+    modelViewer.src = event.target.value;
+  });
+
+
+
+  const checkbox = modelViewer.querySelector('#show-dimensions');
+  checkbox.addEventListener('change', () => {
+    modelViewer.querySelectorAll('button').forEach((hotspot) => {
+      if (checkbox.checked) {
+        hotspot.classList.remove('hide');
+      } else {
+        hotspot.classList.add('hide');
+      }
+    });
+  });
+
+  const btn_click = modelViewer.querySelector('#click_to_add_btn');
+  var count =0
+  btn_click.addEventListener('click', function(){
+    //alert("I'm from button clcik")
+    //const text_update = modelViewer.querySelector('#update_number');
+     count = count + 1;
+    document.getElementById("update_number").innerHTML = count;
+  });
+
+  const btn_click_1 = modelViewer.querySelector('button[slot="hotspot-dot-X+Y-Z"]');
+  btn_click_1.addEventListener('click', function(){
+    count = count + 1;
+    document.getElementById("update_number").innerHTML = count;
+
+  });
+
+
+  modelViewer.addEventListener('load', () => {
+
+    $("#item_show").fadeIn('slow');
+
+    const center = modelViewer.getCameraTarget();
+    const size = modelViewer.getDimensions();
+    const x2 = size.x / 2;
+    const y2 = size.y / 2;
+    const z2 = size.z / 2;
+
+    // modelViewer.updateHotspot({
+    //   name: 'hotspot-dot+X-Y+Z',
+    //   position: `${center.x + x2} ${center.y - y2} ${center.z + z2}`
+    // });
+
+    // modelViewer.updateHotspot({
+    //   name: 'hotspot-dim+X-Y',
+    //   position: `${center.x + x2} ${center.y - y2} ${center.z}`
+    // });
+    //modelViewer.querySelector('button[slot="hotspot-dim+X-Y"]').textContent =
+        //`${(size.z * 100).toFixed(0)} cm`;
+
+    // modelViewer.updateHotspot({
+    //   name: 'hotspot-dot+X-Y-Z',
+    //   position: `${center.x + x2} ${center.y - y2} ${center.z - z2}`
+    // });
+
+    // modelViewer.updateHotspot({
+    //   name: 'hotspot-dim+X-Z',
+    //   position: `${center.x + x2} ${center.y} ${center.z - z2}`
+    // });
+   // modelViewer.querySelector('button[slot="hotspot-dim+X-Z"]').textContent =
+        //`${(size.y * 100).toFixed(0)} cm`;
+
+    // modelViewer.updateHotspot({
+    //   name: 'hotspot-dot+X+Y-Z',
+    //   position: `${center.x + x2} ${center.y + y2} ${center.z - z2}`
+    // });
+
+    // modelViewer.updateHotspot({
+    //   name: 'hotspot-dim+Y-Z',
+    //   position: `${center.x} ${center.y + y2} ${center.z - z2}`
+    // });
+    //modelViewer.querySelector('button[slot="hotspot-dim+Y-Z"]').textContent =
+       // `${(size.x * 100).toFixed(0)} cm`;
+
+    // modelViewer.updateHotspot({
+    //   name: 'hotspot-dot-X+Y-Z'
+    //   //position: `${center.x - x2} ${center.y + y2} ${center.z - z2}`
+    // });
+
+    // modelViewer.updateHotspot({
+    //   name: 'hotspot-dim-X-Z',
+    //   position: `${center.x - x2} ${center.y} ${center.z - z2}`
+    // });
+   // modelViewer.querySelector('button[slot="hotspot-dim-X-Z"]').textContent =
+        //`${(size.y * 100).toFixed(0)} cm`;
+
+    // modelViewer.updateHotspot({
+    //   name: 'hotspot-dot-X-Y-Z',
+    //   position: `${center.x - x2} ${center.y - y2} ${center.z - z2}`
+    // });
+
+    // modelViewer.updateHotspot({
+    //   name: 'hotspot-dim-X-Y',
+    //   position: `${center.x - x2} ${center.y - y2} ${center.z}`
+    // });
+    //modelViewer.querySelector('button[slot="hotspot-dim-X-Y"]').textContent =
+        //`${(size.z * 100).toFixed(0)} cm`;
+
+    // modelViewer.updateHotspot({
+    //   name: 'hotspot-dot-X-Y+Z',
+    //   position: `${center.x - x2} ${center.y - y2} ${center.z + z2}`
+    // });
+  });
+
+
+
+</script>
+</body>
+</html>
