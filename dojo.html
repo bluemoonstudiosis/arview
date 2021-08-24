@@ -564,7 +564,7 @@ data-normal:
     
     <label for="src">Product:</label>
     <select id="src">
-      <option value="https://ar-base.s3.ap-south-1.amazonaws.com/ninja_endo.glb">Chair</option>
+      <option value="https://ar-base.s3.ap-south-1.amazonaws.com/dojo.glb">Chair</option>
       <option value="{{url_for('static', filename='Mixer.glb')}}">Mixer</option>
       <option value="{{url_for('static', filename='GeoPlanter.glb')}}">Cactus</option>
     </select><br>
@@ -751,7 +751,7 @@ function makeid(length) {
           modelViewer.querySelectorAll('button').forEach((hotspot) => {
             hotspot.classList.remove('hide');
 
-            if(modelViewer.src == 'https://ar-base.s3.ap-south-1.amazonaws.com/ninja_endo.glb'){
+            if(modelViewer.src == 'https://ar-base.s3.ap-south-1.amazonaws.com/dojo.glb'){
               $("#enter_to_nip_portal").hide();
               $("#enter_to_tesla_portal").hide();
 
@@ -865,7 +865,7 @@ function makeid(length) {
       $("#enter_to_tesla_portal").hide();
       $("#nip_portal_video").hide();
       $("#nip_portal_exchange").hide();
-      modelViewer.src = "https://ar-base.s3.ap-south-1.amazonaws.com/ninja_endo.glb";
+      modelViewer.src = "https://ar-base.s3.ap-south-1.amazonaws.com/dojo.glb";
       $("#product_view").removeClass('icon-div-active');
         modelViewer.querySelectorAll('button').forEach((hotspot) => {
           hotspot.classList.add('hide');
