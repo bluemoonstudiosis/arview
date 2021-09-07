@@ -335,7 +335,7 @@ img{ max-width:100%;}
   <div id="loading_div">
     <p>Please wait... <br>Metaverse is making connections.<br><img style="width: 200px" src="img/teleport.gif"></p>
   </div>
-<model-viewer style="width:100%;height: 90vh;" id="dimension-demo" ar camera-orbit="-30deg auto auto" max-camera-orbit="auto 100deg auto" shadow-intensity="1" camera-controls src="https://ar-base.s3.ap-south-1.amazonaws.com/dojo.glb" alt="A 3D model of an armchair.">
+<model-viewer style="width:100%;height: 90vh;" id="dimension-demo" ar camera-orbit="-30deg auto auto" max-camera-orbit="auto 100deg auto" shadow-intensity="1" camera-controls src="https://ar-base.s3.ap-south-1.amazonaws.com/ww.glb" alt="A 3D model of an armchair.">
   <button slot="hotspot-dot+X-Y+Z" class="dot hide" data-position="0.1436215490102768 0.01397700211697047 -0.1255905879693874" data-normal="-1 0 0" item-code=0>Add to Bag</button>
   <!-- <button slot="hotspot-dim+X-Y" class="dim hide" data-position="1 -1 0" data-normal="1 0 0"></button> -->
 
@@ -564,7 +564,7 @@ data-normal:
     
     <label for="src">Product:</label>
     <select id="src">
-      <option value="https://ar-base.s3.ap-south-1.amazonaws.com/dojo.glb">Chair</option>
+      <option value="https://ar-base.s3.ap-south-1.amazonaws.com/ww.glb">Chair</option>
       <option value="{{url_for('static', filename='Mixer.glb')}}">Mixer</option>
       <option value="{{url_for('static', filename='GeoPlanter.glb')}}">Cactus</option>
     </select><br>
@@ -751,7 +751,7 @@ function makeid(length) {
           modelViewer.querySelectorAll('button').forEach((hotspot) => {
             hotspot.classList.remove('hide');
 
-            if(modelViewer.src == 'https://ar-base.s3.ap-south-1.amazonaws.com/dojo.glb'){
+            if(modelViewer.src == 'https://ar-base.s3.ap-south-1.amazonaws.com/ww.glb'){
               $("#enter_to_nip_portal").hide();
               $("#enter_to_tesla_portal").hide();
 
@@ -865,7 +865,7 @@ function makeid(length) {
       $("#enter_to_tesla_portal").hide();
       $("#nip_portal_video").hide();
       $("#nip_portal_exchange").hide();
-      modelViewer.src = "https://ar-base.s3.ap-south-1.amazonaws.com/dojo.glb";
+      modelViewer.src = "https://ar-base.s3.ap-south-1.amazonaws.com/ww.glb";
       $("#product_view").removeClass('icon-div-active');
         modelViewer.querySelectorAll('button').forEach((hotspot) => {
           hotspot.classList.add('hide');
