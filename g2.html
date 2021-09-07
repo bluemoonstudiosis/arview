@@ -333,7 +333,7 @@ img{ max-width:100%;}
 </head>
 <body>
   <div id="loading_div">
-    <p>Please wait... <br>Metaverse is making connections.<br><img style="width: 200px" src="{{url_for('static', filename='teleport.gif')}}"></p>
+    <p>Please wait... <br>Metaverse is making connections.<br><img style="width: 200px" src="img/teleport.gif"></p>
   </div>
 <model-viewer style="width:100%;height: 90vh;" id="dimension-demo" ar camera-orbit="-30deg auto auto" max-camera-orbit="auto 100deg auto" shadow-intensity="1" camera-controls src="img/G2_Dome_1.glb" alt="A 3D model of an armchair.">
   <button slot="hotspot-dot+X-Y+Z" class="dot hide" data-position="0.13829607084669718 0.024923205817361016 -0.2218729216606796" data-normal="-0.6519104219790679 0.6248356862857234 0.4296430691387014" item-code=0>Add to Bag</button>
@@ -369,7 +369,7 @@ data-normal:
   </button>
 
    <button slot="hotspot-dot-45" id="nip_portal_video" class="dot3 show hide" data-position="0.19611292929611213 0.049362462926817424 0.005298022688670301" data-normal="-0.9238671319883813 0 0.38271336850384874">
-      <video src="{{url_for('static', filename='exchange.mp4')}}" controls autoplay style="width: 100px;height: 200px;">
+      <video src="img/exchange.mp4" controls autoplay style="width: 100px;height: 200px;">
         Your browser does not support the video tag.
     </video>
   </button>
@@ -390,7 +390,7 @@ data-normal:
 
   <button style="background: none;  border: none;" slot="hotspot-dot-X-Y-Z" class="dot1 hide" data-position="-0.15817156289286918 0.07220136957505766 0.27659705381086375" data-normal="0.44164329684410747 0 -0.8971907257393311">
 
-    <video src="{{url_for('static', filename='ninja_01.mp4')}}" controls autoplay style="width: 350px;height: 250px;">
+    <video src="img/ninja_01.mp4" controls autoplay style="width: 350px;height: 250px;">
         Your browser does not support the video tag.
     </video>
   </button> 
@@ -427,28 +427,28 @@ data-normal:
 
   <div id="item_show">
     <div class="icon-div" id="view_chechlist">
-        <img src="{{url_for('static', filename='check_list.png')}}">
+        <img src="img/check_list.png">
       </div>
     <div class="icon-div" id="view_chat">
-        <img src="{{url_for('static', filename='chat.png')}}">
+        <img src="img/chat.png">
       </div>
       <div class="icon-div" id="product_view">
-        <img src="{{url_for('static', filename='search.png')}}">
+        <img src="img/search.png">
       </div>
       <div class="icon-div" id="view_cart">
-        <img src="{{url_for('static', filename='cart.png')}}">
+        <img src="img/cart.png">
         <span id="cart-count">0</span>
       </div>
   </div>
   <div id="cart_view_div">
-    <span id="close_cart_view_div" onclick="$(this).parent().toggle()"><img width="25px" src="{{url_for('static', filename='cross_close.png')}}"></span>
+    <span id="close_cart_view_div" onclick="$(this).parent().toggle()"><img width="25px" src="img/cross_close.png"></span>
     <div id="cart_content">
       <div style="margin-top:20px;">No items Add to cart yet</div>
     </div>
   </div>
 
   <div id="checklist_view_div">
-    <span id="close_cart_view_div" onclick="$(this).parent().toggle()"><img width="25px" src="{{url_for('static', filename='cross_close.png')}}"></span>
+    <span id="close_cart_view_div" onclick="$(this).parent().toggle()"><img width="25px" src="img/cross_close.png"></span>
     <div id="cart_content">
       <div style="margin-top:20px;padding: 30px;">
         <h4><b>Earn some Chand</b></h4><hr>
@@ -467,7 +467,7 @@ data-normal:
   
 
   <div id="chat_view_div">
-    <span id="close_cart_view_div" onclick="$(this).parent().toggle()"><img width="25px" src="{{url_for('static', filename='cross_close.png')}}"></span>
+    <span id="close_cart_view_div" onclick="$(this).parent().toggle()"><img width="25px" src="img/cross_close.png"></span>
     <div id="cart_content">
       <div style="max-height: 80vh;background: #efefef;overflow: scroll;">
 
@@ -534,7 +534,7 @@ data-normal:
 
 
   <div id="tip_view_div">
-    <span id="close_cart_view_div" onclick="$(this).parent().toggle()"><img width="25px" src="{{url_for('static', filename='cross_close.png')}}"></span>
+    <span id="close_cart_view_div" onclick="$(this).parent().toggle()"><img width="25px" src="img/cross_close.png"></span>
     <div id="cart_content">
       <div style="margin-top:20px;">send any amount of zil to friends or to dome owner</div>
     </div>
@@ -542,7 +542,7 @@ data-normal:
 
 
   <div id="buynow_view_div">
-    <span id="close_cart_view_div" onclick="$(this).parent().toggle()"><img width="25px" src="{{url_for('static', filename='cross_close.png')}}"></span>
+    <span id="close_cart_view_div" onclick="$(this).parent().toggle()"><img width="25px" src="img/cross_close.png"></span>
     <div id="cart_content">
       <div style="margin-top:20px;">This can link to any NFT marketplace</div>
     </div>
@@ -564,7 +564,7 @@ data-normal:
     
     <label for="src">Product:</label>
     <select id="src">
-      <option value="https://ar-base.s3.ap-south-1.amazonaws.com/ndr2.glb">Chair</option>
+      <option value="img/G2_Dome_1.glb">G2</option>
       <option value="{{url_for('static', filename='Mixer.glb')}}">Mixer</option>
       <option value="{{url_for('static', filename='GeoPlanter.glb')}}">Cactus</option>
     </select><br>
@@ -751,7 +751,7 @@ function makeid(length) {
           modelViewer.querySelectorAll('button').forEach((hotspot) => {
             hotspot.classList.remove('hide');
 
-            if(modelViewer.src == 'https://ar-base.s3.ap-south-1.amazonaws.com/ndr2.glb'){
+            if(modelViewer.src == 'img/G2_Dome_1.glb'){
               $("#enter_to_nip_portal").hide();
               $("#enter_to_tesla_portal").hide();
 
@@ -865,7 +865,7 @@ function makeid(length) {
       $("#enter_to_tesla_portal").hide();
       $("#nip_portal_video").hide();
       $("#nip_portal_exchange").hide();
-      modelViewer.src = "https://ar-base.s3.ap-south-1.amazonaws.com/ndr2.glb";
+      modelViewer.src = "img/G2_Dome_1.glb";
       $("#product_view").removeClass('icon-div-active');
         modelViewer.querySelectorAll('button').forEach((hotspot) => {
           hotspot.classList.add('hide');
