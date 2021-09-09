@@ -341,6 +341,11 @@ img{ max-width:100%;}
 
   
 <script type="text/javascript">
+   const modelViewer = document.querySelector('#dimension-demo');
+
+  $(document).ready(function(){
+
+
   modelViewer.addEventListener('load', () => {
     $("#loading_div").hide();
     if (modelViewer.src == 'https://ar-base.s3.ap-south-1.amazonaws.com/zdr2.glb'){
@@ -363,7 +368,7 @@ img{ max-width:100%;}
     console.log(modelViewer.src);
 
   });
-
+});
 
 
 </script>
