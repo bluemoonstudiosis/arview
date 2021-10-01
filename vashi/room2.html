@@ -390,7 +390,7 @@ model-viewer{
 
    $("#take_me_btn").on('click', function(){
 
-    if($("#vip_access_code").text == '1234'){
+    if($("#vip_access_code").val() == '1234'){
         $("#loading_div").show();
         modelViewer.src = "https://ar-base.s3.ap-south-1.amazonaws.com/Vashi_Side_3.glb";
         
