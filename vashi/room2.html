@@ -341,6 +341,16 @@ model-viewer{
     <button class="Hotspot" id="room1_door" slot="hotspot-1" data-position="0.0005457963042129928m 0.017651584317914637m 0.10689149051904678m" data-normal="0m 0m -1m" data-visibility-attribute="visible">VIP Room</button>
     <button class="Hotspot" id="room2_door" slot="hotspot-1" data-position="-0.1454961001873017m 0.020972715289854754m -0.008309758785417919m" data-normal="1m 0m 0m" data-visibility-attribute="visible">Main Room</button>
 
+    <div id="buynow_view_div">
+      <span id="close_cart_view_div" onclick="$(this).parent().toggle()"><img width="25px" src="img/cross_close.png"></span>
+      <div id="cart_content">
+        <div style="margin-top:20px;">
+          <div><input class="from-control" type="text" id="vip_access_code" placeholder="enter code"></div>
+          <div><button onclick="enter_vip_room()">Take me</button></div>
+        </div>
+      </div>
+    </div>
+
 </model-viewer>
 
 <script type="module">
@@ -356,13 +366,23 @@ model-viewer{
        $("#loading_div").show();
         $("#room2_door").show();
        $("#room1_door").hide();
+       $("#buynow_view_div").show();
 
-      modelViewer.src = "https://ar-base.s3.ap-south-1.amazonaws.com/Vashi_2.glb";
+      
        /* modelViewer.querySelectorAll('button').forEach((hotspot) => {
           hotspot.classList.add('hide');
         });*/
 
     });
+
+   var enter_vip_room = function() {
+
+      if($("#vip_access_code").text == '1234'){
+         modelViewer.src = "https://ar-base.s3.ap-south-1.amazonaws.com/Vashi_2.glb";
+         $("#buynow_view_div").hide();
+      }
+     
+   }
 
    $("#room1_door").on('click', function(){
 
