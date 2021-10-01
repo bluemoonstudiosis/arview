@@ -346,7 +346,7 @@ model-viewer{
       <div id="cart_content">
         <div style="margin-top:20px; text-align: center;">
           <div><input class="form-control" type="text" id="vip_access_code" placeholder="enter code"></div><br>
-          <div><button class="btn btn-primary" onclick="enter_vip_room()">Take me</button></div>
+          <div><button class="btn btn-primary" onclick="enter_vip_room()" id="take_me_btn">Take me</button></div>
         </div>
       </div>
     </div>
@@ -388,16 +388,19 @@ model-viewer{
 
     });
 
-   var enter_vip_room = function() {
+   $("#take_me_btn").on('click', function(){
 
-      if($("#vip_access_code").text == '1234'){
+    if($("#vip_access_code").text == '1234'){
         $("#loading_div").show();
         modelViewer.src = "https://ar-base.s3.ap-south-1.amazonaws.com/Vashi_Side_3.glb";
         
          $("#buynow_view_div").hide();
       }
      
-   }
+
+   });
+
+      
 
   
 
